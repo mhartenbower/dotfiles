@@ -141,6 +141,7 @@ cmp.setup.cmdline({ '/', '?' }, {
 local util = require 'lspconfig.util'
 lspconfig.gopls.setup {
   capabilities = capabilities,
+  on_attach = on_attach,
   cmd = {"gopls", "serve"},
   filetypes = {"go", "gomod"},
   root_dir = util.root_pattern("go.work", "go.mod", ".git"),
@@ -155,6 +156,8 @@ lspconfig.gopls.setup {
 }
 
 lspconfig.lua_ls.setup {
+  capabilities = capabilities,
+  on_attach = on_attach,
   settings = {
     Lua = {
       runtime = {
@@ -257,6 +260,5 @@ require'nvim-treesitter.configs'.setup {
 -- Mason
 require("mason").setup()
 
--- Wilder
 local wilder = require('wilder')
 wilder.setup({modes = {':', '/', '?'}})
