@@ -1,0 +1,31 @@
+[user]
+	name = Matt Hartenbower
+	email = <email-address> 
+[alias]
+	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+[color]
+	ui = auto
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
+[diff]
+	mnemonicPrefix = true
+	renames = true
+	wordRegex = .
+[log]
+	abbrevCommit = true
+	follow = true
+	decorate = false
+[merge]
+	ff = only 
+	conflictstyle = diff3
+[pull]
+	rebase = merges
+[push]
+	default = upstream
+	followTags = true
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[status]
+	showUntrackedFiles = all
