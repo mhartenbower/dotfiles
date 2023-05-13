@@ -257,3 +257,6 @@ require'nvim-treesitter.configs'.setup {
 -- Mason
 require("mason").setup()
 
+-- Wilder
+local wilder = require('wilder')
+wilder.setup({modes = {':', '/', '?'}})
