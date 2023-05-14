@@ -3,8 +3,11 @@ alias vim="nvim"
 set -x GOENV_ROOT "$HOME/.goenv"
 set -x PATH "$GOENV_ROOT/bin:$PATH"
 status --is-interactive; and source (goenv init -|psub)
+set -x GOBIN $GOPATH/bin
 set -x PATH "$GOROOT/bin:$PATH"
 set -x PATH "$PATH:$GOPATH/bin"
+
+set -x TERM "screen-256color"
 
 # TokyoNight Color Palette
 set -l foreground c0caf5
