@@ -30,5 +30,12 @@ require('packer').startup(function()
       -- config goes here
     end,
   }
+  use 'williamboman/mason-lspconfig.nvim'
+  use 'jose-elias-alvarez/null-ls.nvim'
+  use {
+    'folke/trouble.nvim',
+    requires = { 'nvim-tree/nvim-web-devicons' }
+  }
+  use 'nvim-tree/nvim-web-devicons'
 end)
 

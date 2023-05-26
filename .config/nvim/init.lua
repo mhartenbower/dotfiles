@@ -21,6 +21,7 @@ vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.guifont = "Victor Mono:h12"
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 --vim.o.noswapfile = true
+vim.g.mapleader = ","
 
 -- Theme
 vim.g.tokyonight_italic_functions = true
@@ -33,6 +34,8 @@ vim.g.go_fmt_autosave = 0
 vim.g.go_code_completion_enabled = 0
 vim.g.go_def_mapping_enabled = 0
 
+vim.lsp.buf.format({ timeout_ms = 2000 })
+
 local lspconfig = require('lspconfig')
 -- -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -40,6 +43,26 @@ vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+-- Trouble stuff
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+  {silent = true, noremap = true}
+)
 
 local on_attach = function(_, bufnr)
   local function buf_set_option(...)
@@ -180,6 +203,20 @@ lspconfig.lua_ls.setup {
   },
 }
 
+require'lspconfig'.pylsp.setup{
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = {
+    pylsp = {
+      plugins = {
+        pyflakes = {
+          enabled = false
+        }
+      }
+    }
+  }
+}
+
 function OrgImports(wait_ms)
   local params = vim.lsp.util.make_range_params()
   params.context = {only = {"source.organizeImports"}}
@@ -259,6 +296,68 @@ require'nvim-treesitter.configs'.setup {
 
 -- Mason
 require("mason").setup()
+require("mason-lspconfig").setup()
 
 local wilder = require('wilder')
 wilder.setup({modes = {':', '/', '?'}})
+
+-- null-ls
+local null_ls = require('null-ls')
+null_ls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  sources = {
+    -- Python
+    null_ls.builtins.formatting.autopep8,
+    null_ls.builtins.diagnostics.flake8,
+    -- Lua formatting
+    null_ls.builtins.formatting.stylua,
+  },
+  root_dir = lspconfig.util.root_pattern("yarn.lock", "lerna.json", ".git"),
+  --debug = true,
+  log = { enabled = true, level = "trace" },
+})
+
+
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- you can specify color or cterm_color instead of specifying both of them
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    cterm_color = "65",
+    name = "Zsh"
+  }
+ };
+ -- globally enable different highlight colors per icon (default to true)
+ -- if set to false all icons will have the default icon's color
+ color_icons = true;
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+ -- globally enable "strict" selection of icons - icon will be looked up in
+ -- different tables, first by filename, and if not found by extension; this
+ -- prevents cases when file doesn't have any extension but still gets some icon
+ -- because its name happened to match some extension (default to false)
+ strict = true;
+ -- same as `override` but specifically for overrides by filename
+ -- takes effect when `strict` is true
+ override_by_filename = {
+  [".gitignore"] = {
+    icon = "",
+    color = "#f1502f",
+    name = "Gitignore"
+  }
+ };
+ -- same as `override` but specifically for overrides by extension
+ -- takes effect when `strict` is true
+ override_by_extension = {
+  ["log"] = {
+    icon = "",
+    color = "#81e043",
+    name = "Log"
+  }
+ };
+}
