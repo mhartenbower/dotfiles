@@ -15,11 +15,11 @@ vim.opt.textwidth = 80
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.number = true
-vim.opt.foldlevelstart=99
+vim.opt.foldlevelstart = 99
 vim.wo.foldmethod = "expr"
 vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.guifont = "Victor Mono:h12"
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 --vim.o.noswapfile = true
 vim.g.mapleader = ","
 
@@ -46,22 +46,22 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 -- Trouble stuff
 vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 
 local on_attach = function(_, bufnr)
@@ -96,7 +96,7 @@ end
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Set up nvim-cmp.
-local cmp = require'cmp'
+local cmp = require 'cmp'
 
 local luasnip = require 'luasnip'
 cmp.setup({
@@ -123,7 +123,7 @@ cmp.setup({
       else
         fallback()
       end
-    end, { 'i', 's'}),
+    end, { 'i', 's' }),
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -165,8 +165,8 @@ local util = require 'lspconfig.util'
 lspconfig.gopls.setup {
   capabilities = capabilities,
   on_attach = on_attach,
-  cmd = {"gopls", "serve"},
-  filetypes = {"go", "gomod"},
+  cmd = { "gopls", "serve" },
+  filetypes = { "go", "gomod" },
   root_dir = util.root_pattern("go.work", "go.mod", ".git"),
   settings = {
     gopls = {
@@ -189,7 +189,7 @@ lspconfig.lua_ls.setup {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -203,7 +203,7 @@ lspconfig.lua_ls.setup {
   },
 }
 
-require'lspconfig'.pylsp.setup{
+require 'lspconfig'.pylsp.setup {
   capabilities = capabilities,
   on_attach = on_attach,
   settings = {
@@ -219,7 +219,7 @@ require'lspconfig'.pylsp.setup{
 
 function OrgImports(wait_ms)
   local params = vim.lsp.util.make_range_params()
-  params.context = {only = {"source.organizeImports"}}
+  params.context = { only = { "source.organizeImports" } }
   local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
   for _, res in pairs(result or {}) do
     for _, r in pairs(res.result or {}) do
@@ -239,8 +239,8 @@ require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
     disabled_filetypes = {
       statusline = {},
       winbar = {},
@@ -255,18 +255,18 @@ require('lualine').setup {
     }
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch', 'diff', 'diagnostics' },
+    lualine_c = { 'filename' },
+    lualine_x = { 'encoding', 'fileformat', 'filetype' },
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' }
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
+    lualine_c = { 'filename' },
+    lualine_x = { 'location' },
     lualine_y = {},
     lualine_z = {}
   },
@@ -277,7 +277,7 @@ require('lualine').setup {
 }
 
 -- Treesitter
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -299,12 +299,24 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 
 local wilder = require('wilder')
-wilder.setup({modes = {':', '/', '?'}})
+wilder.setup({ modes = { ':', '/', '?' } })
 
 -- null-ls
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local null_ls = require('null-ls')
 null_ls.setup({
-  on_attach = on_attach,
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr })
+        end,
+      })
+    end
+  end,
   capabilities = capabilities,
   sources = {
     -- Python
@@ -312,6 +324,11 @@ null_ls.setup({
     null_ls.builtins.diagnostics.flake8,
     -- Lua formatting
     null_ls.builtins.formatting.stylua,
+    -- tex
+    null_ls.builtins.diagnostics.vale.with({
+      extra_args = { "--config=/home/mharten/.config/.vale.ini" },
+    }),
+    null_ls.builtins.formatting.latexindent
   },
   root_dir = lspconfig.util.root_pattern("yarn.lock", "lerna.json", ".git"),
   --debug = true,
@@ -319,45 +336,64 @@ null_ls.setup({
 })
 
 
-require'nvim-web-devicons'.setup {
- -- your personnal icons can go here (to override)
- -- you can specify color or cterm_color instead of specifying both of them
- -- DevIcon will be appended to `name`
- override = {
-  zsh = {
-    icon = "",
-    color = "#428850",
-    cterm_color = "65",
-    name = "Zsh"
-  }
- };
- -- globally enable different highlight colors per icon (default to true)
- -- if set to false all icons will have the default icon's color
- color_icons = true;
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
- default = true;
- -- globally enable "strict" selection of icons - icon will be looked up in
- -- different tables, first by filename, and if not found by extension; this
- -- prevents cases when file doesn't have any extension but still gets some icon
- -- because its name happened to match some extension (default to false)
- strict = true;
- -- same as `override` but specifically for overrides by filename
- -- takes effect when `strict` is true
- override_by_filename = {
-  [".gitignore"] = {
-    icon = "",
-    color = "#f1502f",
-    name = "Gitignore"
-  }
- };
- -- same as `override` but specifically for overrides by extension
- -- takes effect when `strict` is true
- override_by_extension = {
-  ["log"] = {
-    icon = "",
-    color = "#81e043",
-    name = "Log"
-  }
- };
+require 'nvim-web-devicons'.setup {
+  -- your personnal icons can go here (to override)
+  -- you can specify color or cterm_color instead of specifying both of them
+  -- DevIcon will be appended to `name`
+  override = {
+    zsh = {
+      icon = "",
+      color = "#428850",
+      cterm_color = "65",
+      name = "Zsh"
+    }
+  },
+  -- globally enable different highlight colors per icon (default to true)
+  -- if set to false all icons will have the default icon's color
+  color_icons = true,
+  -- globally enable default icons (default to false)
+  -- will get overriden by `get_icons` option
+  default = true,
+  -- globally enable "strict" selection of icons - icon will be looked up in
+  -- different tables, first by filename, and if not found by extension; this
+  -- prevents cases when file doesn't have any extension but still gets some icon
+  -- because its name happened to match some extension (default to false)
+  strict = true,
+  -- same as `override` but specifically for overrides by filename
+  -- takes effect when `strict` is true
+  override_by_filename = {
+    [".gitignore"] = {
+      icon = "",
+      color = "#f1502f",
+      name = "Gitignore"
+    }
+  },
+  -- same as `override` but specifically for overrides by extension
+  -- takes effect when `strict` is true
+  override_by_extension = {
+    ["log"] = {
+      icon = "",
+      color = "#81e043",
+      name = "Log"
+    }
+  },
 }
+
+-- texlab
+require 'lspconfig'.texlab.setup {}
+
+-- knap
+-- set shorter name for keymap function
+local kmap = vim.keymap.set
+
+-- F5 processes the document once, and refreshes the view
+kmap({ 'n', 'v', 'i' }, '<F5>', function() require("knap").process_once() end)
+
+-- F6 closes the viewer application, and allows settings to be reset
+kmap({ 'n', 'v', 'i' }, '<F6>', function() require("knap").close_viewer() end)
+
+-- F7 toggles the auto-processing on and off
+kmap({ 'n', 'v', 'i' }, '<F7>', function() require("knap").toggle_autopreviewing() end)
+
+-- F8 invokes a SyncTeX forward search, or similar, where appropriate
+kmap({ 'n', 'v', 'i' }, '<F8>', function() require("knap").forward_jump() end)

@@ -12,12 +12,12 @@ require('packer').startup(function()
   use 'tpope/vim-fugitive'
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true}
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
   }
   use 'fatih/vim-go'
   use {
-     'nvim-telescope/telescope.nvim', tag = '0.1.1',
-      requires = { {'nvim-lua/plenary.nvim'} }
+    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+    requires = { { 'nvim-lua/plenary.nvim' } }
   }
   use 'tpope/vim-surround'
   use {
@@ -37,5 +37,5 @@ require('packer').startup(function()
     requires = { 'nvim-tree/nvim-web-devicons' }
   }
   use 'nvim-tree/nvim-web-devicons'
+  use 'frabjous/knap'
 end)
-
