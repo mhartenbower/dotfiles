@@ -1,0 +1,6 @@
+run:
+  timeout: 5m
+linters:
+  enable-all: true
+output:
+  sort-results: true

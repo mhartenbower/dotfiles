@@ -1,0 +1,19 @@
+-- Editor Settings
+vim.opt.tabstop = 2
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.wildmenu = true
+vim.opt.lazyredraw = true
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
+vim.opt.hidden = true
+vim.opt.updatetime = 300
+vim.opt.cursorline = true
+vim.opt.textwidth = 80
+vim.opt.relativenumber = true
+vim.opt.number = true
+vim.opt.foldlevelstart = 99
+vim.opt.smartindent = true
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.completeopt = { "menu", "menuone", "noselect" }

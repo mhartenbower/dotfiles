@@ -1,41 +1,45 @@
-require('packer').startup(function()
-  use 'wbthomason/packer.nvim'
-  use 'neovim/nvim-lspconfig'
-  use 'folke/tokyonight.nvim'
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'saadparwaiz1/cmp_luasnip'
-  use 'L3MON4D3/LuaSnip'
-  use 'nvim-treesitter/nvim-treesitter'
-  use 'tpope/vim-fugitive'
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  }
-  use 'fatih/vim-go'
-  use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
-    requires = { { 'nvim-lua/plenary.nvim' } }
-  }
-  use 'tpope/vim-surround'
-  use {
-    "williamboman/mason.nvim",
-    run = ":MasonUpdate" -- :MasonUpdate updates registry contents
-  }
-  use {
-    'gelguy/wilder.nvim',
-    config = function()
-      -- config goes here
-    end,
-  }
-  use 'williamboman/mason-lspconfig.nvim'
-  use 'jose-elias-alvarez/null-ls.nvim'
-  use {
-    'folke/trouble.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons' }
-  }
-  use 'nvim-tree/nvim-web-devicons'
-  use 'frabjous/knap'
-end)
+return {
+	"wbthomason/packer.nvim",
+	"neovim/nvim-lspconfig",
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-path",
+	"saadparwaiz1/cmp_luasnip",
+	"L3MON4D3/LuaSnip",
+	"nvim-treesitter/nvim-treesitter",
+	"nvim-treesitter/nvim-treesitter-context",
+	"tpope/vim-fugitive",
+	"tpope/vim-surround",
+	"nvim-tree/nvim-web-devicons",
+	"frabjous/knap",
+	"williamboman/mason.nvim",
+	"williamboman/mason-lspconfig.nvim",
+	"neovim/nvim-lspconfig",
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	"mfussenegger/nvim-lint",
+	"mhartington/formatter.nvim",
+	"nvim-tree/nvim-web-devicons",
+	"folke/trouble.nvim",
+	"nvim-lualine/lualine.nvim",
+	{
+		"m4xshen/hardtime.nvim",
+		dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+		opts = {},
+	},
+	{
+		"nvimdev/dashboard-nvim",
+		event = "VimEnter",
+		config = function()
+			require("dashboard").setup({})
+		end,
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+	"mfussenegger/nvim-dap",
+	"leoluz/nvim-dap-go",
+	"rcarriga/nvim-dap-ui",
+	"folke/neodev.nvim",
+}
