@@ -42,4 +42,5 @@ return {
 	"leoluz/nvim-dap-go",
 	"rcarriga/nvim-dap-ui",
 	"folke/neodev.nvim",
+	"akinsho/bufferline.nvim",
 }
