@@ -44,6 +44,10 @@ require("formatter").setup({
 			require("formatter.filetypes.go").goimports,
 		},
 
+		rust = {
+			require("formatter.filetypes.rust").rustfmt,
+		},
+
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype
 		["*"] = {
