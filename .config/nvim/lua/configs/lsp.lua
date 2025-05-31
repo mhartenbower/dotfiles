@@ -101,8 +101,14 @@ require("lspconfig").lua_ls.setup({
 	end,
 })
 
+-- OCaml
+require("lspconfig").ocamllsp.setup({})
+
 -- Rust
 require("lspconfig").rust_analyzer.setup({})
+
+-- Java
+require("lspconfig").jdtls.setup({})
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

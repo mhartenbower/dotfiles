@@ -1,7 +1,5 @@
 require("configs.treesitter")
-require("configs.neodev")
 require("configs.lsp")
-require("configs.mason")
 require("configs.options")
 require("configs.formatter")
 require("configs.lint")

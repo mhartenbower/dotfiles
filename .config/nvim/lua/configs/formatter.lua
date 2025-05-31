@@ -44,9 +44,33 @@ require("formatter").setup({
 			require("formatter.filetypes.go").goimports,
 		},
 
+		html = {
+			require("formatter.filetypes.html").prettierd,
+		},
+
+		java = {
+			require("formatter.filetypes.java").google_java_format,
+		},
+
+		markdown = {
+			require("formatter.filetypes.markdown").prettierd,
+		},
+
+		ocaml = {
+			require("formatter.filetypes.ocaml").ocamlformat,
+		},
+
 		rust = {
 			require("formatter.filetypes.rust").rustfmt,
 		},
+
+    typescript = {
+      require("formatter.filetypes.typescript").tsfmt,
+    },
+
+    typescriptreact = {
+      require("formatter.filetypes.typescriptreact").tsfmt,
+    },
 
 		-- Use the special "*" filetype for defining formatter configurations on
 		-- any filetype

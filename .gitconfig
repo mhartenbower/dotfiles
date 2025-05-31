@@ -1,31 +1,41 @@
 [user]
+	email = 
 	name = Matt Hartenbower
-	email = <email-address> 
-[alias]
-	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-[color]
-	ui = auto
 [core]
-	editor = nvim
+  editor = nvim
+[column]
+  ui = auto
+[branch]
+  sort = -commiterdate
+[tag]
+  sort = version:refname
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [diff]
-	mnemonicPrefix = true
-	renames = true
-	wordRegex = .
-[log]
-	abbrevCommit = true
-	follow = true
-	decorate = false
-[merge]
-	ff = only 
-	conflictstyle = diff3
-[pull]
-	rebase = merges
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
 [push]
-	default = upstream
-	followTags = true
-[url "git@github.com:"]
-	insteadOf = https://github.com/
-[status]
-	showUntrackedFiles = all
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+[help]
+  autocorrect = prompt
+[commit]
+  verbose = true
+[rerere]
+  enabled = true
+  autoupdate = true
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+[merge]
+  conflictstyle = diff3
+[pull]
+  rebase = true
